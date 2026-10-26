@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<head>
+    <title>CFI</title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+
+<!-- <h1>Campaign Finance Intelligence</h1> -->
+
+<form action="/search" method="get">
+
+    <label for="name" class="form-label fw-semibold">Candidate</label>
+
+    <div class="input-group input-group-lg">
+        <input
+                id="name"
+                type="text"
+                name="name"
+                class="form-control"
+                th:value="${searchName}">
+
+        <button class="btn btn-primary" type="submit">
+            Search
+        </button>
+    </div>
+
+</form>
+
+
+<div th:if="${candidates != null}">
+
+    <h2>Results</h2>
+
+    <p th:if="${#lists.isEmpty(candidates)}">
+        No candidates found.
+    </p>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle" th:unless="${#lists.isEmpty(candidates)}">
+
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Party</th>
+                <th>Office</th>
+                <th>State</th>
+                <th>FEC ID</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="candidate : ${candidates}">
+
+                <td>
+                    <a class="btn btn-outline"
+                    th:href="@{/candidates/{id}(id=${candidate.candidateId})}"
+                    th:text="${candidate.name}">
+                    </a>
+                </td>
+
+                <td th:text="${candidate.party}"></td>
+                <td th:text="${candidate.office}"></td>
+                <td th:text="${candidate.state}"></td>
+                <td th:text="${candidate.candidateId}"></td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+<!-- <form action="/searchCommittees" method="get">
+
+    <label for="name">Committee</label>
+
+    <input
+            id="name"
+            type="text"
+            name="name"
+            th:value="${searchCommittees}">
+
+    <button type="submit">
+        Search
+    </button>
+
+</form>
+
+<div th:if="${committees != null}">
+
+    <h2>Results</h2>
+
+    <p th:if="${#lists.isEmpty(committees)}">
+        No committees found.
+    </p>
+
+    <table th:unless="${#lists.isEmpty(committees)}">
+
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Party</th>
+            <th>Org. Type</th>
+            <th>Comm. Type</th>
+            <th>State</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr th:each="committee : ${committees}">
+
+            <td th:text="${committee.name}"></td>
+            <td th:text="${committee.party}"></td>
+            <td th:text="${committee.organization}"></td>
+            <td th:text="${committee.committeeType}"></td>
+            <td th:text="${committee.state}"></td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+</div> -->
+
+</div>
+
+</body>
+</html>
